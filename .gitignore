@@ -1,0 +1,7 @@
+kubectl
+minikube-linux-amd64
+__pycache__/
+*.pyc
+sbom.json
+*.egg-info/
+.env
