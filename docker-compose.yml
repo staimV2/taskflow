@@ -1,0 +1,27 @@
+services:
+  redis:
+    image: redis:7-alpine
+    networks:
+      - taskflow-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  api:
+    image: taskflow:latest
+    build: .
+    ports:
+      - "5000"
+    environment:
+      - REDIS_HOST=redis
+    networks:
+      - taskflow-net
+    depends_on:
+      redis:
+        condition: service_healthy
+
+networks:
+  taskflow-net:
+    driver: bridge
